@@ -5,31 +5,10 @@ use anchor_lang::prelude::*;
 declare_id!("Count3AcZucFDPSFBAeHkQ6AvttieKUkyJ8HiQGhQwe");
 
 #[program]
-pub mod votingdapp {
+pub mod voting {
     use super::*;
 
-    pub fn close(_ctx: Context<CloseVotingdapp>) -> Result<()> {
-        Ok(())
-    }
-
-    pub fn decrement(ctx: Context<Update>) -> Result<()> {
-        ctx.accounts.votingdapp.count = ctx.accounts.votingdapp.count.checked_sub(1).unwrap();
-        Ok(())
-    }
-
-    pub fn increment(ctx: Context<Update>) -> Result<()> {
-        ctx.accounts.votingdapp.count = ctx.accounts.votingdapp.count.checked_add(1).unwrap();
-        Ok(())
-    }
-
-    pub fn initialize(_ctx: Context<InitializeVotingdapp>) -> Result<()> {
-        Ok(())
-    }
-
-    pub fn set(ctx: Context<Update>, value: u8) -> Result<()> {
-        ctx.accounts.votingdapp.count = value.clone();
-        Ok(())
-    }
+    
 }
 
 #[derive(Accounts)]
