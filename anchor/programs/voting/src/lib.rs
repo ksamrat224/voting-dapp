@@ -8,7 +8,18 @@ declare_id!("Count3AcZucFDPSFBAeHkQ6AvttieKUkyJ8HiQGhQwe"); //setting the  progr
 pub mod voting {
     use super::*;
     //function to initialize a new poll
-    pub fn initialize_poll(_ctx: Context<InitializePoll>, _poll_id: u64) -> Result<()>{
+    pub fn initialize_poll(ctx: Context<InitializePoll>, 
+                           poll_id: u64,
+                           description: String,
+                           poll_start: u64,
+                           poll_end: u64,) -> Result<()>{
+        let poll_account = &mut ctx.accounts.poll; //mutable reference to the poll account
+        poll_account.poll_id = poll_id;
+        poll_account.description = description;
+        poll_account.poll_start = poll_start;
+        poll_account.poll_end = poll_end;
+        poll_account.candidate_amount = 0; 
+
         Ok(())
     }
 
