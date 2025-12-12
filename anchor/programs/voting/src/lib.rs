@@ -22,9 +22,50 @@ pub mod voting {
 
         Ok(())
     }
+    pub  fn initialize_candidate(ctx: Context<InitializeCandidate>,
+                                 candidate_name: String,
+                                  poll_id:u64) -> Result<()>{
+        Ok(())
+    }
 
     
 }
+#[derive(Accounts)] //tells Anchor that this struct defines how to validate Solana accounts for this instruction
+#[instruction(candidate_name: String,poll_id:u64)] //allows using the candidate_name and  poll_id in the struct (for seed generation)
+pub struct InitializeCandidate<'info> {
+    #[account(mut)]
+    pub signer: Signer<'info>, //The wallet of the user creating the poll (mut means they can sign and pay)
+
+    #[account(
+        
+        seeds = [poll_id.to_le_bytes().as_ref()],
+        bump
+    )]
+    pub poll: Account<'info,Poll>, //the account that will store the poll data
+
+    #[account(
+       init,
+       payer = signer,
+       space = 8 + Candidate::INIT_SPACE,
+       seeds = [candidate_name.as_bytes(),poll_id.to_le_bytes().as_ref()],
+       bump
+    )]
+    pub candidate: Account<'info,Candidate>, //the account that will store the candidate data
+
+    pub system_program: Program<'info,System>, //Reference to Solana’s system instructions.
+
+
+
+}
+#[account] //macro that marks this struct as an on-chain account
+#[derive(InitSpace)] //derive macro to calculate the space needed for the account,does automatically
+pub struct Candidate {
+    #[max_len(32)]
+    pub candidate_name: String,
+    pub candidate_votes: u64,
+}
+
+
 #[derive(Accounts)] //tells Anchor that this struct defines how to validate Solana accounts for this instruction
 #[instruction(poll_id: u64)] //allows using the poll_id in the struct (for seed generation)
 pub struct  InitializePoll<'info> {
