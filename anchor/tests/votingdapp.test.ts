@@ -1,29 +1,28 @@
-import {
-  Blockhash,
-  createSolanaClient,
-  createTransaction,
-  generateKeyPairSigner,
-  Instruction,
-  isSolanaError,
-  KeyPairSigner,
-  signTransactionMessageWithSigners,
-} from 'gill'
-import {
-  fetchVotingdapp,
-  getCloseInstruction,
-  getDecrementInstruction,
-  getIncrementInstruction,
-  getInitializeInstruction,
-  getSetInstruction,
-} from '../src'
-// @ts-ignore error TS2307 suggest setting `moduleResolution` but this is already configured
+import * as anchor from '@coral-xyz/anchor'
+import { Program } from '@coral-xyz/anchor'
+import { Keypair, PublicKey } from '@solana/web3.js'
 import { loadKeypairSignerFromFile } from 'gill/node'
 import { Voting } from '../target/types/voting'
 
-const { rpc, sendAndConfirmTransaction } = createSolanaClient({ urlOrMoniker: process.env.ANCHOR_PROVIDER_URL! })
+import { startAnchor } from 'solana-bankrun'
+import { BankrunProvider } from 'anchor-bankrun'
 
 const IDL = require('../target/idl/voting.json')
 
+const VotingAddress = new PublicKey('Count3AcZucFDPSFBAeHkQ6AvttieKUkyJ8HiQGhQwe')
+
 describe('Voting', () => {
-  it('Initialize Poll', async () => {})
+  it('Initialize Poll', async () => {
+    const context = await startAnchor(' ', [{ name: 'voting', programId: VotingAddress }], [])
+    const provider = new BankrunProvider(context)
+
+    const votingProgram = new Program<Voting>(IDL, provider)
+
+    await votingProgram.methods.initializePoll(
+      new anchor.BN(1),
+      "What is your favorite programming language?",
+      new anchor.BN(0),
+      new anchor.BN(1821246480),
+    );
+  })
 })
