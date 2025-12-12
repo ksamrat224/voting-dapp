@@ -32,6 +32,11 @@ describe('Voting', () => {
       VotingAddress,
     )
     const poll = await votingProgram.account.poll.fetch(pollAddress)
-    console.log(poll)
+    console.log(poll);
+
+    expect(poll.pollId.toNumber()).toEqual(1);
+    expect(poll.description).toEqual('What is your favorite programming language?');
+    expect(poll.pollStart.toNumber()).toBeLessThan(poll.pollEnd.toNumber());
+
   })
 })
