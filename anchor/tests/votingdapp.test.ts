@@ -13,16 +13,25 @@ const VotingAddress = new PublicKey('Count3AcZucFDPSFBAeHkQ6AvttieKUkyJ8HiQGhQwe
 
 describe('Voting', () => {
   it('Initialize Poll', async () => {
-    const context = await startAnchor(' ', [{ name: 'voting', programId: VotingAddress }], [])
+    const context = await startAnchor('', [{ name: 'voting', programId: VotingAddress }], [])
     const provider = new BankrunProvider(context)
 
     const votingProgram = new Program<Voting>(IDL, provider)
 
-    await votingProgram.methods.initializePoll(
-      new anchor.BN(1),
-      "What is your favorite programming language?",
-      new anchor.BN(0),
-      new anchor.BN(1821246480),
-    );
+    await votingProgram.methods
+      .initializePoll(
+        new anchor.BN(1),
+        'What is your favorite programming language?',
+        new anchor.BN(0),
+        new anchor.BN(1821246480),
+      )
+      .rpc()
+
+    const [pollAddress] = PublicKey.findProgramAddressSync(
+      [new anchor.BN(1).toArrayLike(Buffer, 'le', 8)],
+      VotingAddress,
+    )
+    const poll = await votingProgram.account.poll.fetch(pollAddress)
+    console.log(poll)
   })
 })
