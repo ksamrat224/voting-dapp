@@ -24,7 +24,10 @@ pub mod voting {
     }
     pub  fn initialize_candidate(ctx: Context<InitializeCandidate>,
                                  candidate_name: String,
-                                  poll_id:u64) -> Result<()>{
+                                  _poll_id:u64) -> Result<()>{
+        let candidate = &mut ctx.accounts.candidate; //mutable reference to the candidate account
+        candidate.candidate_name = candidate_name;
+        candidate.candidate_votes = 0;
         Ok(())
     }
 
