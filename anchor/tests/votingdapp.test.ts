@@ -57,13 +57,15 @@ describe('Voting', () => {
     )
     const rustCandidate = await votingProgram.account.candidate.fetch(rustAddress)
     console.log(rustCandidate);
+    expect(rustCandidate.candidateVotes.toNumber()).toEqual(0);
 
     const [solanaAddress] = PublicKey.findProgramAddressSync(
       [Buffer.from('Solana'), new anchor.BN(1).toArrayLike(Buffer, 'le', 8)],
       VotingAddress,
     )
     const solanaCandidate = await votingProgram.account.candidate.fetch(solanaAddress)
-    console.log(solanaCandidate)
+    console.log(solanaCandidate);
+    expect(solanaCandidate.candidateVotes.toNumber()).toEqual(0);
   })
 
   it('initialize vote', async () => {})
