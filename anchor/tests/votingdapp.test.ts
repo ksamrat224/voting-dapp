@@ -6,18 +6,25 @@ import { Voting } from '../target/types/voting'
 
 import { startAnchor } from 'solana-bankrun'
 import { BankrunProvider } from 'anchor-bankrun'
+import { before } from 'node:test'
 
 const IDL = require('../target/idl/voting.json')
 
 const VotingAddress = new PublicKey('Count3AcZucFDPSFBAeHkQ6AvttieKUkyJ8HiQGhQwe')
 
 describe('Voting', () => {
+  let context: Awaited<ReturnType<typeof startAnchor>>
+  let provider: BankrunProvider
+  let votingProgram: Program<Voting>
+
+  beforeAll(async () => {
+    context = await startAnchor('', [{ name: 'voting', programId: VotingAddress }], [])
+    provider = new BankrunProvider(context)
+
+    votingProgram = new Program<Voting>(IDL, provider)
+  })
+
   it('Initialize Poll', async () => {
-    const context = await startAnchor('', [{ name: 'voting', programId: VotingAddress }], [])
-    const provider = new BankrunProvider(context)
-
-    const votingProgram = new Program<Voting>(IDL, provider)
-
     await votingProgram.methods
       .initializePoll(
         new anchor.BN(1),
@@ -32,11 +39,14 @@ describe('Voting', () => {
       VotingAddress,
     )
     const poll = await votingProgram.account.poll.fetch(pollAddress)
-    console.log(poll);
+    console.log(poll)
 
-    expect(poll.pollId.toNumber()).toEqual(1);
-    expect(poll.description).toEqual('What is your favorite programming language?');
-    expect(poll.pollStart.toNumber()).toBeLessThan(poll.pollEnd.toNumber());
-
+    expect(poll.pollId.toNumber()).toEqual(1)
+    expect(poll.description).toEqual('What is your favorite programming language?')
+    expect(poll.pollStart.toNumber()).toBeLessThan(poll.pollEnd.toNumber())
   })
+
+  it('initialize candidate', async () => {})
+
+  it('initialize vote', async () => {})
 })
