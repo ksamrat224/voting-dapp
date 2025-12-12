@@ -46,7 +46,25 @@ describe('Voting', () => {
     expect(poll.pollStart.toNumber()).toBeLessThan(poll.pollEnd.toNumber())
   })
 
-  it('initialize candidate', async () => {})
+  it('initialize candidate', async () => {
+    await votingProgram.methods.initializeCandidate('Rust', new anchor.BN(1)).rpc()
+
+    await votingProgram.methods.initializeCandidate('Solana', new anchor.BN(1)).rpc()
+
+    const [rustAddress] = PublicKey.findProgramAddressSync(
+      [Buffer.from('Rust'), new anchor.BN(1).toArrayLike(Buffer, 'le', 8)],
+      VotingAddress,
+    )
+    const rustCandidate = await votingProgram.account.candidate.fetch(rustAddress)
+    console.log(rustCandidate);
+
+    const [solanaAddress] = PublicKey.findProgramAddressSync(
+      [Buffer.from('Solana'), new anchor.BN(1).toArrayLike(Buffer, 'le', 8)],
+      VotingAddress,
+    )
+    const solanaCandidate = await votingProgram.account.candidate.fetch(solanaAddress)
+    console.log(solanaCandidate)
+  })
 
   it('initialize vote', async () => {})
 })
