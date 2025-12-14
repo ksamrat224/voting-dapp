@@ -68,5 +68,16 @@ describe('Voting', () => {
     expect(solanaCandidate.candidateVotes.toNumber()).toEqual(0)
   })
 
-  it('initialize vote', async () => {})
+  it(' vote', async () => {
+    await votingProgram.methods.vote('Rust', new anchor.BN(1)).rpc();
+
+     const [solanaAddress] = PublicKey.findProgramAddressSync(
+       [Buffer.from('Solana'), new anchor.BN(1).toArrayLike(Buffer, 'le', 8)],
+       VotingAddress,
+     )
+     const solanaCandidate = await votingProgram.account.candidate.fetch(solanaAddress)
+     console.log(solanaCandidate)
+     expect(solanaCandidate.candidateVotes.toNumber()).toEqual(1)
+
+  })
 })

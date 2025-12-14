@@ -57,7 +57,7 @@ pub struct vote<'info> {
     pub poll: Account<'info,Poll>, //the account that will store the poll data
 
     #[account(
-       
+       mut,
        seeds = [candidate_name.as_bytes(),poll_id.to_le_bytes().as_ref()],
        bump
     )]
@@ -78,7 +78,7 @@ pub struct InitializeCandidate<'info> {
     pub signer: Signer<'info>, //The wallet of the user creating the poll (mut means they can sign and pay)
 
     #[account(
-        
+        mut,
         seeds = [poll_id.to_le_bytes().as_ref()],
         bump
     )]
