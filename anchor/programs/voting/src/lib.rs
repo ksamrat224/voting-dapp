@@ -34,7 +34,7 @@ pub mod voting {
         Ok(())
     }
 
-    pub fn vote(ctx: Context<vote>,_candidate_name:String,_poll_id:u64) -> Result<()>{
+    pub fn vote(ctx: Context<Vote>,_candidate_name:String,_poll_id:u64) -> Result<()>{
         let candidate = &mut ctx.accounts.candidate; //mutable reference to the candidate account
         candidate.candidate_votes += 1; //increment the vote count by 1
 
@@ -45,9 +45,8 @@ pub mod voting {
 }
 #[derive(Accounts)] //tells Anchor that this struct defines how to validate Solana accounts for this instruction
 #[instruction(candidate_name: String,poll_id:u64)] //allows using the candidate_name and  poll_id in the struct (for seed generation)
-pub struct vote<'info> {
-    #[account]
-    pub signer: Signer<'info>, //The wallet of the user creating the poll (mut means they can sign and pay)
+pub struct Vote<'info> {
+    pub signer: Signer<'info>, //The wallet of the user voting
 
     #[account(
         

@@ -69,15 +69,14 @@ describe('Voting', () => {
   })
 
   it(' vote', async () => {
-    await votingProgram.methods.vote('Rust', new anchor.BN(1)).rpc();
+    await votingProgram.methods.vote('Rust', new anchor.BN(1)).rpc()
 
-     const [solanaAddress] = PublicKey.findProgramAddressSync(
-       [Buffer.from('Solana'), new anchor.BN(1).toArrayLike(Buffer, 'le', 8)],
-       VotingAddress,
-     )
-     const solanaCandidate = await votingProgram.account.candidate.fetch(solanaAddress)
-     console.log(solanaCandidate)
-     expect(solanaCandidate.candidateVotes.toNumber()).toEqual(1)
-
+    const [rustAddress] = PublicKey.findProgramAddressSync(
+      [Buffer.from('Rust'), new anchor.BN(1).toArrayLike(Buffer, 'le', 8)],
+      VotingAddress,
+    )
+    const rustCandidate = await votingProgram.account.candidate.fetch(rustAddress)
+    console.log(rustCandidate)
+    expect(rustCandidate.candidateVotes.toNumber()).toEqual(1)
   })
 })
