@@ -57,7 +57,7 @@ export function useVotingInitializePollMutation({ account }: { account: UiWallet
         console.error('Error cause:', err?.cause)
         console.error('Error stack:', err?.stack)
         console.error('Full error (stringify):', JSON.stringify(err, Object.getOwnPropertyNames(err || {}), 2))
-        
+
         // If it's a Solana RPC error, it might have logs
         if (err?.logs) {
           console.error('Program logs:', err.logs)
@@ -65,7 +65,7 @@ export function useVotingInitializePollMutation({ account }: { account: UiWallet
         if (err?.context) {
           console.error('Error context:', err.context)
         }
-        
+
         throw err
       }
     },
