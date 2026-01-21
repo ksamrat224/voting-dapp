@@ -61,7 +61,7 @@ function WalletDropdown() {
             <DropdownMenuSeparator />
           </>
         ) : null}
-        {wallets.length ? (
+        {wallets?.length ? (
           wallets.map((wallet) => <WalletDropdownItem key={wallet.name} wallet={wallet} />)
         ) : (
           <DropdownMenuItem className="cursor-pointer" asChild>

@@ -2,7 +2,7 @@ import { useSolana } from '@/components/solana/use-solana'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { UiWalletAccount, useWalletUiSigner } from '@wallet-ui/react'
 import { useWalletUiSignAndSend } from '@wallet-ui/react-gill'
-import { getVoteInstruction, getPollPda, getCandidatePda } from '@project/anchor'
+import { getVoteInstructionAsync } from '@project/anchor'
 import { toastTx } from '@/components/toast-tx'
 import { toast } from 'sonner'
 
@@ -14,19 +14,13 @@ export function useVotingVoteMutation({ account }: { account: UiWalletAccount })
 
   return useMutation({
     mutationFn: async ({ candidateName, pollId }: { candidateName: string; pollId: bigint }) => {
-      const [pollPda] = await getPollPda(pollId)
-      const [candidatePda] = await getCandidatePda(candidateName, pollId)
-
-      return await signAndSend(
-        getVoteInstruction({
-          signer,
-          poll: pollPda,
-          candidate: candidatePda,
-          candidateName,
-          pollId,
-        }),
+      const instruction = await getVoteInstructionAsync({
         signer,
-      )
+        candidateName,
+        pollId,
+      })
+
+      return await signAndSend(instruction, signer)
     },
     onSuccess: async (tx) => {
       toastTx(tx)

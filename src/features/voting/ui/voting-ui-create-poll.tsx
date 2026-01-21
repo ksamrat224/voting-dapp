@@ -17,21 +17,30 @@ export function VotingUiCreatePoll({ account }: { account: UiWalletAccount }) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    const startTime = pollStart ? BigInt(new Date(pollStart).getTime() / 1000) : BigInt(Math.floor(Date.now() / 1000))
-    const endTime = pollEnd ? BigInt(new Date(pollEnd).getTime() / 1000) : BigInt(Math.floor(Date.now() / 1000) + 86400)
+    try {
+      const startTime = pollStart
+        ? BigInt(new Date(pollStart).getTime() / 1000)
+        : BigInt(Math.floor(Date.now() / 1000))
+      const endTime = pollEnd
+        ? BigInt(new Date(pollEnd).getTime() / 1000)
+        : BigInt(Math.floor(Date.now() / 1000) + 86400)
 
-    await mutation.mutateAsync({
-      pollId: BigInt(pollId),
-      description,
-      pollStart: startTime,
-      pollEnd: endTime,
-    })
+      await mutation.mutateAsync({
+        pollId: BigInt(pollId),
+        description,
+        pollStart: startTime,
+        pollEnd: endTime,
+      })
 
-    // Reset form
-    setPollId('')
-    setDescription('')
-    setPollStart('')
-    setPollEnd('')
+      // Reset form only on success
+      setPollId('')
+      setDescription('')
+      setPollStart('')
+      setPollEnd('')
+    } catch (error) {
+      // Error is already handled by the mutation's onError
+      console.error('Error creating poll:', error)
+    }
   }
 
   return (

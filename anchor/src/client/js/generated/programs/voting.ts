@@ -20,7 +20,7 @@ import {
 } from '../instructions';
 
 export const VOTING_PROGRAM_ADDRESS =
-  'Count3AcZucFDPSFBAeHkQ6AvttieKUkyJ8HiQGhQwe' as Address<'Count3AcZucFDPSFBAeHkQ6AvttieKUkyJ8HiQGhQwe'>;
+  '3qdGapBa9fKXAXVdawmuN2Ug4VktMnpNjFEophp5yJrF' as Address<'3qdGapBa9fKXAXVdawmuN2Ug4VktMnpNjFEophp5yJrF'>;
 
 export enum VotingAccount {
   Candidate,
@@ -107,7 +107,7 @@ export function identifyVotingInstruction(
 }
 
 export type ParsedVotingInstruction<
-  TProgram extends string = 'Count3AcZucFDPSFBAeHkQ6AvttieKUkyJ8HiQGhQwe',
+  TProgram extends string = '3qdGapBa9fKXAXVdawmuN2Ug4VktMnpNjFEophp5yJrF',
 > =
   | ({
       instructionType: VotingInstruction.InitializeCandidate;

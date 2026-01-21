@@ -2,7 +2,7 @@
 
 use anchor_lang::prelude::*; //this provides all the necessary imports from the anchor lang crate(types, macros, traits, etc)
 
-declare_id!("Count3AcZucFDPSFBAeHkQ6AvttieKUkyJ8HiQGhQwe"); //setting the  program's unique public key on solana blockchain
+declare_id!("3qdGapBa9fKXAXVdawmuN2Ug4VktMnpNjFEophp5yJrF"); //setting the  program's unique public key on solana blockchain
 
 #[program] //macro that marks entry point of the program
 pub mod voting {

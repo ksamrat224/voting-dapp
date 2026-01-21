@@ -7,6 +7,7 @@ import { VotingUiCreatePoll } from './ui/voting-ui-create-poll'
 import { VotingUiAddCandidate } from './ui/voting-ui-add-candidate'
 import { VotingUiPollDetails } from './ui/voting-ui-poll-details'
 import { useVotingPollsQuery } from './data-access/use-voting-polls-query'
+import { NetworkMismatchWarning } from './ui/network-mismatch-warning'
 import { useState } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
@@ -39,7 +40,9 @@ export default function VotingFeature() {
 
       <div className="container mx-auto px-4 py-8">
         {account && (
-          <Tabs defaultValue="polls" className="w-full">
+          <>
+            <NetworkMismatchWarning />
+            <Tabs defaultValue="polls" className="w-full">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="polls">View Polls</TabsTrigger>
               <TabsTrigger value="create">Create & Manage</TabsTrigger>
@@ -91,6 +94,7 @@ export default function VotingFeature() {
               </div>
             </TabsContent>
           </Tabs>
+          </>
         )}
       </div>
     </VotingUiProgramGuard>

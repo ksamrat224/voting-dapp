@@ -15,7 +15,7 @@ export default function AccountFeatureIndex() {
   }, [account, router])
 
   return (
-    <div className="hero py-[64px]">
+    <div className="hero py-16">
       <div className="hero-content text-center">
         <WalletDropdown />
       </div>
