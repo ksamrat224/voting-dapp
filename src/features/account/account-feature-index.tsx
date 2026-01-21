@@ -1,13 +1,18 @@
-import { ReactNode } from 'react'
+'use client'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 import { useSolana } from '@/components/solana/use-solana'
 import { WalletDropdown } from '@/components/wallet-dropdown'
 
-export default function AccountFeatureIndex({ redirect }: { redirect: (path: string) => ReactNode }) {
+export default function AccountFeatureIndex() {
   const { account } = useSolana()
+  const router = useRouter()
 
-  if (account) {
-    return redirect(`/account/${account.address.toString()}`)
-  }
+  useEffect(() => {
+    if (account) {
+      router.push(`/account/${account.address.toString()}`)
+    }
+  }, [account, router])
 
   return (
     <div className="hero py-[64px]">
