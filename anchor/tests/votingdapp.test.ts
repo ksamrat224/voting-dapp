@@ -10,7 +10,7 @@ import { before } from 'node:test'
 
 const IDL = require('../target/idl/voting.json')
 
-const VotingAddress = new PublicKey('Count3AcZucFDPSFBAeHkQ6AvttieKUkyJ8HiQGhQwe')
+const VotingAddress = new PublicKey('3qdGapBa9fKXAXVdawmuN2Ug4VktMnpNjFEophp5yJrF')
 
 describe('Voting', () => {
   let context: Awaited<ReturnType<typeof startAnchor>>

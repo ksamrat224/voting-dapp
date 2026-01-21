@@ -18,9 +18,7 @@ export function VotingUiCreatePoll({ account }: { account: UiWalletAccount }) {
     e.preventDefault()
 
     try {
-      const startTime = pollStart
-        ? BigInt(new Date(pollStart).getTime() / 1000)
-        : BigInt(Math.floor(Date.now() / 1000))
+      const startTime = pollStart ? BigInt(new Date(pollStart).getTime() / 1000) : BigInt(Math.floor(Date.now() / 1000))
       const endTime = pollEnd
         ? BigInt(new Date(pollEnd).getTime() / 1000)
         : BigInt(Math.floor(Date.now() / 1000) + 86400)
